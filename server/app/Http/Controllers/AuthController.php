@@ -12,15 +12,6 @@ class AuthController extends Controller
     // Register
     public function register(Request $request)
     {
-        // dd($request);
-        // echo "<pre>";print_r(request()->input());die;
-        // Array
-// (
-//     [name] => Test
-//     [email] => testefadsf@gmail.com
-//     [password] => 123456
-//     [confirm_password] => 123456
-// )
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|unique:users',
@@ -73,8 +64,7 @@ class AuthController extends Controller
     // Authenticated User
     public function user(Request $request)
     {
+        echo 'here';die;
         return response()->json($request->user());
-        // return $request->user();
-
     }
 }
