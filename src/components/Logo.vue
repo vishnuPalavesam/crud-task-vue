@@ -1,8 +1,22 @@
 <script setup>
+    import { RouterLink } from 'vue-router';
+</script>
+
+<script>
+    export default {
+        name: 'AppLogo'
+    }
 </script>
 
 <template>
-    <img src="@/assets/logomain.svg" alt="logo" height="125" width="125">
+    <RouterLink to="/">
+        <img src="@/assets/logomain.svg" alt="logo" height="70" width="70">
+    </RouterLink>
 </template>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+    a {
+        display: grid;
+        place-content: center;
+    }
+</style>

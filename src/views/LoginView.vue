@@ -1,15 +1,16 @@
 <script setup>
   import { reactive, ref } from 'vue';
-  import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import { useAuthStore } from '@/stores/auth';
   const router = useRouter();
 
   const props = defineProps({
     email: { type: String, default: "" }
   });
 
+  const auth = useAuthStore();
+
   const emailInput = ref(props.email);
-  const loading = ref(false);
 
   const form = reactive({
     email: emailInput.value,
@@ -17,19 +18,14 @@
   })
 
   const handleLogin = async () => {
-    loading.value = true;
 
     try {
-      const response = await axios.post("/api/login", form, {
-        headers: { "Content-Type": "application/json" },
-      })
-      console.log(response);
-      if (response.status == 200 && response.data.token) {
-        localStorage.setItem('auth_token', response.data.token);
-        router.push({ name: "home" })
+      await auth.login(form);
+      console.log(auth.loggedIn)
+      if (auth.loggedIn) {
+        router.push({ name: "home" });
       }
     } catch (error) {
-      loading.value = false;
       error.value = true;
     }
 
@@ -47,9 +43,9 @@
       <label for="password">Password</label>
       <input v-model="form.password" type="password" name="password" id="password" placeholder="Password" />
     </div>
-    <div v-if="error">Something went wrong</div>
     <div class="form-content">
-      <button :disabled="loading" name="submit" id="submit">{{ (loading) ? "Attempting Login" : "Login" }}</button>
+      <button :disabled="auth.loading" name="submit" id="submit">{{ (auth.loading) ? "Attempting Login" : "Login"
+      }}</button>
     </div>
   </form>
 </template>

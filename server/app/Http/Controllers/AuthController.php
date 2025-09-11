@@ -64,7 +64,7 @@ class AuthController extends Controller
     // Authenticated User
     public function user(Request $request)
     {
-        echo 'here';die;
+        // echo 'here';die;
         return response()->json($request->user());
     }
 }

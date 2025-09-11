@@ -2,7 +2,7 @@ header {
   display: grid;
   place-items: center;
   line-height: 1.5;
-  max-height: 100vh;
+  max-height: 200px;
 }
 
 nav {
@@ -56,18 +56,22 @@ form {
   justify-content: center;
   align-content: center;
   place-content: center;
-  height: 50dvh;
+  height: 500px;
   gap: 0.31rem;
 }
 .form-content input {
-  width: 20dvw;
+  width: 300px;
   display: block;
-  height: 3dvh;
+  height: 35px;
 }
 .form-content button {
   margin-top: 0.8rem;
-  height: 4dvh;
+  height: 34px;
 }
 .form-content {
-  gap: 2dvh;
+  gap: 2rem;
+}
+
+#app {
+  place-content: center;
 }
