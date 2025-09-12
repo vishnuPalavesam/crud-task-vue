@@ -2,9 +2,12 @@
   import { RouterLink, useRouter } from 'vue-router'
   import { useAuthStore } from '@/stores/auth';
   import AppLogo from '@/components/Logo.vue';
+  import { useProductStore } from '@/stores/product';
 
   const auth = useAuthStore();
   const router = useRouter();
+
+  const product = useProductStore();
 
   const handleLogout = () => {
     auth.logout();
@@ -19,11 +22,13 @@
     <AppLogo />
     <div class="nav-wrapper">
       <nav>
-        <div class="cart-count"></div>
+        <RouterLink to="cart" v-if="auth.loggedIn">
+          <div class="cart-count">{{ product.cart > 0 ? product.cart : '' }}</div>
+        </RouterLink>
         <RouterLink v-if="!auth.loggedIn" to="/login">Login</RouterLink>
         <RouterLink v-if="!auth.loggedIn" to="/register">Register</RouterLink>
         <RouterLink v-if="auth.loggedIn" to="/">Home</RouterLink>
-        <RouterLink v-if="auth.loggedIn" to="/addproduct">Add Product</RouterLink>
+        <!-- <RouterLink v-if="auth.loggedIn" to="/addproduct">Add Product</RouterLink> -->
         <RouterLink to="logout" v-if="auth.loggedIn" @click.prevent="handleLogout">Logout</RouterLink>
       </nav>
     </div>
@@ -58,6 +63,18 @@
     background: url('@/assets/cart.svg');
     height: 1.5rem;
     width: 1.5rem;
-    
+
+  }
+
+  main {
+    max-width: 90%;
+    margin-bottom: 2.7rem;
+  }
+
+  .cart-count {
+    padding-left: 2rem;
+    background-repeat: no-repeat;
+    font-size: x-small;
+    place-content: end;
   }
 </style>

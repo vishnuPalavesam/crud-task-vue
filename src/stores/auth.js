@@ -11,16 +11,14 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async checkUser() {
       const token = localStorage.getItem('auth_token') // ✅ fixed key
-      console.log(token)
       if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         try {
           const response = await axios.get('/api/user')
-          // console.log
           this.loggedIn = !!response.data.id
           this.user = response.data
         } catch (error) {
-          console.error('checkUser failed', error)
+          if (error.status === 401) localStorage.removeItem('auth_token')
           this.loggedIn = false
           this.user = null
         } finally {

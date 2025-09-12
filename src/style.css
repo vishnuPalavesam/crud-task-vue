@@ -6,7 +6,7 @@ header {
 }
 
 nav {
-  align-self: flex-end;
+  /* align-self: flex-end; */
   gap: 1rem;
   text-align: left;
   margin-left: -1rem;
@@ -14,9 +14,10 @@ nav {
   padding: 1rem 0;
   margin-top: 1rem;
   width: 100%;
-  font-size: 12px;
+  /* font-size: 12px; */
   text-align: right;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
+  margin: 1.5rem auto;
 }
 
 .logo {
@@ -73,5 +74,9 @@ form {
 }
 
 #app {
-  place-content: center;
+  /* place-content: center; */
+}
+
+main {
+  margin: auto;
 }

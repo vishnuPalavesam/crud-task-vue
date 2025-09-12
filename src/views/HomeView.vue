@@ -1,4 +1,5 @@
 <script setup>
+
   import { useProductStore } from '@/stores/product';
   import { onMounted, ref } from 'vue';
   import ProductCard from '@/components/ProductCard.vue';
@@ -7,19 +8,23 @@
   const productList = ref([]);
 
   const homeProducts = async () => {
-    productList.value = await products.getHomeProducts();
+    await products.getHomeProducts();
+    productList.value = products.homeProduct;
     console.log(productList.value);
   };
 
   onMounted(() => {
     homeProducts();
   });
+
 </script>
 
 <template>
+
   <div>
     <ProductCard v-for="product in productList" :key="product.id" :product="product" />
   </div>
+
 </template>
 
 <style scoped>
@@ -28,34 +33,11 @@
     justify-content: center;
     align-content: center;
     place-content: center;
-    gap: 1rem;
+    gap: 0.3rem;
+    grid-column: auto;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    max-width: 86vw;
+    margin: auto;
   }
 
-  div {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
-
-  @media (width <=1450px) {
-    div {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-  }
-
-  @media (width <=840px) {
-    div {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-  }
-
-  @media (width <=520px) {
-    div {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (width <=425px) {
-    div {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
