@@ -80,3 +80,7 @@ form {
 main {
   margin: auto;
 }
+
+.d-grid {
+  display: grid;
+}

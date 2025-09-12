@@ -3,6 +3,7 @@
   import { useAuthStore } from '@/stores/auth';
   import AppLogo from '@/components/Logo.vue';
   import { useProductStore } from '@/stores/product';
+  import { onMounted, ref, watchEffect } from 'vue';
 
   const auth = useAuthStore();
   const router = useRouter();
@@ -13,6 +14,23 @@
     auth.logout();
     router.push({ name: "login" });
   }
+  const isDark = ref(false);
+
+  onMounted(() => {
+    const saved = localStorage.getItem('theme');
+    // alert(saved)
+    if (saved) {
+      isDark.value = saved === 'dark'
+      document.documentElement.classList.toggle('dark', isDark.value);
+    }
+  })
+  watchEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark.value);
+    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  })
+  const toggleTheme = () => {
+    isDark.value = !isDark.value;
+  }
 </script>
 
 <template>
@@ -22,6 +40,9 @@
     <AppLogo />
     <div class="nav-wrapper">
       <nav>
+        <button @click="toggleTheme">
+          {{ isDark ? '☀️' : '🌙 ' }}
+        </button>
         <RouterLink to="cart" v-if="auth.loggedIn">
           <div class="cart-count">{{ product.cart > 0 ? product.cart : '' }}</div>
         </RouterLink>
@@ -39,6 +60,11 @@
 </template>
 
 <style scoped>
+  button {
+    border: none;
+    background-color: unset;
+  }
+
   .main-header {
     display: grid;
     grid-template-columns: auto 1fr;

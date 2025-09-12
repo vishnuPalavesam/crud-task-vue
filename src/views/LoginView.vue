@@ -33,19 +33,39 @@
 </script>
 
 <template>
-  <form @submit.prevent="handleLogin">
-    <h1>Login</h1>
-    <div class="form-content">
-      <label for="email">Email</label>
-      <input v-model="form.email" type="text" name="email" id="email" placeholder="Email" />
+  <div class="d-grid">
+    <div class="grid-center">
+      <h1>Here goes the different content</h1>
+      <img src="https://t4.ftcdn.net/jpg/01/35/08/59/360_F_135085967_K8tvXYKca02oD8X0zDkbl3V9N9Sonemy.jpg" alt="">
     </div>
-    <div class="form-content">
-      <label for="password">Password</label>
-      <input v-model="form.password" type="password" name="password" id="password" placeholder="Password" />
+    <div>
+      <form @submit.prevent="handleLogin">
+        <h1>Login</h1>
+        <div class="form-content">
+          <label for="email">Email</label>
+          <input v-model="form.email" type="text" name="email" id="email" placeholder="Email" />
+        </div>
+        <div class="form-content">
+          <label for="password">Password</label>
+          <input v-model="form.password" type="password" name="password" id="password" placeholder="Password" />
+        </div>
+        <div class="form-content">
+          <button :disabled="auth.loading" name="submit" id="submit">
+            {{ (auth.loading) ? "Attempting Login" : "Login" }}
+          </button>
+        </div>
+      </form>
     </div>
-    <div class="form-content">
-      <button :disabled="auth.loading" name="submit" id="submit">{{ (auth.loading) ? "Attempting Login" : "Login"
-      }}</button>
-    </div>
-  </form>
+  </div>
 </template>
+
+<style lang="css" scoped>
+  .d-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid-center {
+    place-content: center;
+    height: 500px;
+  }
+</style>
