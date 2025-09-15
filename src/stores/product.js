@@ -32,8 +32,10 @@ export const useProductStore = defineStore('product', {
       const product = this.homeProduct.find((el) => el.id === id)
       const cartProduct = this.cart.find((el) => el.id === id)
       if (product && !cartProduct) {
-        product.quantity = 1;
+        // product.quantity = 1;
         this.cart.push(product);
+        // console.log(this.cart[this.cart.length - 1].quantity);
+        this.cart[this.cart.length - 1].quantity = 1
         product.cart = 1;
       } else if (product && cartProduct) {
         this.cart = this.cart.filter((el) => el.id !== id)
@@ -48,7 +50,6 @@ export const useProductStore = defineStore('product', {
         this.recProducts = [...this.homeProduct].sort(() => Math.random() - 0.5).slice(0, 4)
       }
     },
-
     increaseQuantity(id) {
       // const product = this.homeProduct.find(el=>el.id===id)
       const cartProduct = this.cart.find(el => el.id === id)
@@ -59,7 +60,6 @@ export const useProductStore = defineStore('product', {
       const cartProduct = this.cart.find(el => el.id === id)
       cartProduct.quantity--;
     },
-
     removeCart(id) {
       const product = this.homeProduct.find(el => el.id === id)
       this.cart = this.cart.filter((el) => el.id !== id)

@@ -24,7 +24,7 @@
     <div class="product-details w-full grid grid-cols-4 gap-2 items-center">
       <div class="product-text col-span-3">
         <h4 class="text-lg font-semibold text-gray-800 truncate">{{ product.name }}</h4>
-        <h5 class="text-sm text-gray-500 mt-1">{{ "$ " + product.quantity }}</h5>
+        <h5 class="text-sm text-gray-500 mt-1">{{ "$ " + product.price }}</h5>
       </div>
       <RouterLink to="" v-if="auth.loggedIn" @click.prevent="productState.addToCart(product.id)"
         class="flex justify-end">

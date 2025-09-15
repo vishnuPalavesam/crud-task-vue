@@ -4,6 +4,7 @@
   import CartContainer from './CartContainer.vue';
   const cart = useProductStore();
 
+
 </script>
 
 <template>

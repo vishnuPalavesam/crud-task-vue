@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 header {
 
@@ -75,10 +75,6 @@ form {
 }
 .form-content {
   gap: 2rem;
-}
-
-#app {
-  /* place-content: center; */
 }
 
 main {

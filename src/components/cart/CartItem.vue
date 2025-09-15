@@ -1,6 +1,6 @@
 <script setup>
   import { useProductStore } from '@/stores/product';
-  import { defineProps, defineEmits } from 'vue';
+  import { defineProps } from 'vue';
 
   const cart = useProductStore();
 
@@ -11,12 +11,10 @@
       }
     }
   )
-  defineEmits({
-    removeCart: {
-      id: String
-    }
-  })
 
+  // const emit = defineEmits(
+  //   ['remove']
+  // );
 </script>
 
 <template>
@@ -34,9 +32,9 @@
           @click="cart.increaseQuantity(product.id)">+</button>
       </div>
     </div>
-    <button @click="cart.removeCart" class="bg-red-900 p-1.5 text-white rounded-md"> Remove</button>
+    <button @click="cart.removeCart(product.id)" class="bg-red-900 p-1.5 text-white rounded-md">
+      Remove</button>
   </div>
-
 </template>
 
 <script>
