@@ -25,6 +25,16 @@ class ProductController extends Controller
         return response()->json($imgs, 200, [], JSON_UNESCAPED_SLASHES);
 
     }
+    public function addtocart($id)
+    {
+        $user = auth()->user();
+        $userId = $user ? $user->id : null;
+        $cart = new Cart();
+        $cart->user_id = $userId;
+        $cart->product_id = $id;
+        $cart->save();
+        return response()->json(['message'=>'success'], 200, [], JSON_UNESCAPED_SLASHES);
+    }
     // public function index()
     // {
     //     $imagenames = Product::pluck('image');
