@@ -1,6 +1,8 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 header {
+
   display: grid;
   place-items: center;
   line-height: 1.5;
@@ -67,10 +69,10 @@ form {
   display: block;
   height: 35px;
 }
-/* .form-content button {
+.form-content button {
   margin-top: 0.8rem;
   height: 34px;
-} */
+}
 .form-content {
   gap: 2rem;
 }

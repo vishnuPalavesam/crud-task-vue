@@ -1,5 +1,4 @@
 <script setup>
-
   import { useProductStore } from '@/stores/product';
   import { onMounted, ref } from 'vue';
   import ProductCard from '@/components/ProductCard.vue';
@@ -10,21 +9,18 @@
   const homeProducts = async () => {
     await products.getHomeProducts();
     productList.value = products.homeProduct;
-    console.log(productList.value);
+    // console.log(productList.value);
   };
 
   onMounted(() => {
     homeProducts();
   });
-
 </script>
 
 <template>
-
   <div>
     <ProductCard v-for="product in productList" :key="product.id" :product="product" />
   </div>
-
 </template>
 
 <style scoped>
@@ -39,5 +35,4 @@
     max-width: 86vw;
     margin: auto;
   }
-
 </style>

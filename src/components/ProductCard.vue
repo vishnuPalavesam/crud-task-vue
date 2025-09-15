@@ -14,18 +14,23 @@
 </script>
 
 <template>
-  <div class="product-card">
-    <img :src="product.image" alt="">
-    <img v-if="product.cart === 1" class="cart-button active" src="@/assets/cart.svg" height="30px" width="30px" alt="">
-    <div class="product-details">
-      <div class="product-text">
-        <h4>{{ product.name }}</h4>
-        <h5>{{ "$ " + product.quantity }}</h5>
+  <div
+    class="product-card bg-white dark:bg-grey rounded-lg shadow-md p-4 relative flex flex-col items-center transition hover:shadow-lg">
+    <img :src="product.image" alt=""
+      class="w-full h-40 object-cover rounded-md mb-3 transition-transform hover:scale-105">
+    <img v-if="product.cart === 1"
+      class="cart-button active absolute top-4 right-4 bg-green-100 rounded-full p-2 shadow" src="@/assets/cart.svg"
+      height="30px" width="30px" alt="">
+    <div class="product-details w-full grid grid-cols-4 gap-2 items-center">
+      <div class="product-text col-span-3">
+        <h4 class="text-lg font-semibold text-gray-800 truncate">{{ product.name }}</h4>
+        <h5 class="text-sm text-gray-500 mt-1">{{ "$ " + product.quantity }}</h5>
       </div>
-      <RouterLink to="" v-if="auth.loggedIn" @click.prevent="productState.addToCart(product.id)">
-        <img class="add-cart" src="@/assets/cart.svg" height="30px" width="30px" alt="">
+      <RouterLink to="" v-if="auth.loggedIn" @click.prevent="productState.addToCart(product.id)"
+        class="flex justify-end">
+        <img class="add-cart cursor-pointer bg-green-50 hover:bg-green-200 rounded-full p-2 transition"
+          src="@/assets/cart.svg" height="30px" width="30px" alt="">
       </RouterLink>
-
     </div>
   </div>
 </template>
@@ -33,26 +38,30 @@
 <style lang="css" scoped>
   .product-card {
     display: grid;
-    /* grid-template-columns: 1fr 1fr 1fr 1fr; */
     position: relative;
     grid: none;
     max-width: 14rem;
     width: max-content;
-    gap: 0.7rem;
     border: solid 0.00001rem var(--color-border);
     padding: 8px;
     border-radius: 1.5%;
+
+  }
+
+  .product-card>img:hover {
+    box-shadow: 1px 2px;
+
   }
 
   img {
     max-width: 100%;
+
   }
 
   .product-details {
     text-indent: 10px;
     text-indent: 10px;
     display: grid;
-    grid-template-columns: 4fr 1fr;
   }
 
   .cart-button {

@@ -47,6 +47,8 @@ export const useAuthStore = defineStore('auth', {
           console.log(localStorage.getItem('auth_token'))
           await this.checkUser()
         }
+      } catch (error) {
+        console.log(error);
       } finally {
         this.loading = false
       }

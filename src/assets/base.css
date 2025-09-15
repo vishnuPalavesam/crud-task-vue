@@ -36,7 +36,7 @@
   --section-gap: 160px;
 }
 
-body.lightmode {
+/* body.lightmode {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -48,8 +48,8 @@ body.lightmode {
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-}
-html.dark {
+} */
+/* html.dark {
   --color-background: var(--vt-c-black);
   --color-background-soft: var(--vt-c-black-soft);
   --color-background-mute: var(--vt-c-black-mute);
@@ -59,7 +59,7 @@ html.dark {
 
   --color-heading: var(--vt-c-text-dark-1);
   --color-text: var(--vt-c-text-dark-2);
-}
+} */
 
 /* @media (prefers-color-scheme: dark) {
   :root {

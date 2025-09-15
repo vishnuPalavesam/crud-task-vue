@@ -4,34 +4,43 @@ import axios from 'axios'
 export const useProductStore = defineStore('product', {
   state: () => ({
     homeProduct: [],
-    cart: 0,
+    cart: [],
     recProducts: [],
   }),
   actions: {
-    async getHomeProducts() {
-      const response = await axios.get('/api/products/index')
-      if (response.status === 200 && response.data) {
-        const data = response.data
-        data.forEach((el) => {
-          return (el.cart = 0)
-        })
-        this.homeProduct = response.data
-      } else {
-        this.homeProduct = []
+    async getHomeProducts(force = 0) {
+      if (this.homeProduct.length === 0 || force === 1) {
+        const response = await axios.get('/api/products/index')
+        if (response.status === 200 && response.data) {
+          const data = response.data
+          data.forEach((el) => {
+            el.cart = 0
+          });
+          data.forEach((el) => {
+            const cartItem = this.cart.find(item => item.id === el.id)
+            if (cartItem) {
+              el.cart = cartItem.cart
+            }
+          })
+          this.homeProduct = data
+        } else {
+          this.homeProduct = []
+        }
       }
     },
     addToCart(id) {
       const product = this.homeProduct.find((el) => el.id === id)
-      if (product.cart === 0) {
-        this.cart++
-        product.cart = 1
-      } else {
-        this.cart--
-        product.cart = 0
+      const cartProduct = this.cart.find((el) => el.id === id)
+      if (product && !cartProduct) {
+        product.quantity = 1;
+        this.cart.push(product);
+        product.cart = 1;
+      } else if (product && cartProduct) {
+        this.cart = this.cart.filter((el) => el.id !== id)
+        product.cart = 0;
       }
     },
     async getRecProduct() {
-      console.log('Here inside')
       if (this.homeProduct.length === 0) {
         await this.getHomeProducts()
         this.recProducts = [...this.homeProduct].sort(() => Math.random() - 0.5).slice(0, 4)
@@ -39,5 +48,23 @@ export const useProductStore = defineStore('product', {
         this.recProducts = [...this.homeProduct].sort(() => Math.random() - 0.5).slice(0, 4)
       }
     },
+
+    increaseQuantity(id) {
+      // const product = this.homeProduct.find(el=>el.id===id)
+      const cartProduct = this.cart.find(el => el.id === id)
+      cartProduct.quantity++;
+    },
+    decreaseQuantity(id) {
+      // const product = this.homeProduct.find(el=>el.id===id)
+      const cartProduct = this.cart.find(el => el.id === id)
+      cartProduct.quantity--;
+    },
+
+    removeCart(id) {
+      const product = this.homeProduct.find(el => el.id === id)
+      this.cart = this.cart.filter((el) => el.id !== id)
+      product.cart = 0
+    }
+
   },
 })
