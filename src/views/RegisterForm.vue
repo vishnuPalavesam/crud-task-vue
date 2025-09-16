@@ -1,5 +1,6 @@
 <script setup>
 
+  import FormButton from '@/components/FormButton.vue';
   import InputText from '@/components/InputText.vue';
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
@@ -31,7 +32,8 @@
           router.push({ name: "login" });
         }, 2000);
       }
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       error.value = true;
     }
   }
@@ -65,12 +67,13 @@
       <input class="border-1 rounded-md text-base px-1.5" type="password" v-model="form.password_confirmation"
         name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" />
     </div> -->
-    <div class="form-content">
-      <button class="border-1 p-1" name="submit" id="submit" :disabled="loading">{{ loading ? "Registering" :
+    <!-- <div class="form-content">
+      <button class="border-1 p-1 rounded-md" name="submit" id="submit" :disabled="loading">{{ loading ? "Registering" :
         "Register" }}</button>
-    </div>
-    <div class="text-red" v-if="error">Something went wrong</div>
-    <div class="text-success" v-if="success">Account created successfully</div>
+    </div> -->
+    <!-- <div class="text-red" v-if="error">Something went wrong</div> -->
+    <FormButton text="Register" loadText="Registering" :loading="loading" :error="error" errorText="Registering Failed"
+      :success="success" successText="Account created successfully" />
   </form>
 </template>
 

@@ -51,11 +51,7 @@ nav a:first-of-type {
   margin: 0 2rem 0 0;
 }
 
-.form-content button {
-  background-color: hsla(158, 70%, 55%, 0.589);
-  border-radius: 12%;
-  border: none;
-}
+
 form {
   display: grid;
   justify-content: center;
