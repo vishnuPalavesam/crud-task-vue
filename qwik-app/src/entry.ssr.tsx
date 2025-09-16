@@ -10,17 +10,16 @@
  * - npm run build
  *
  */
-import {
-  renderToStream,
-  type RenderToStreamOptions,
-} from "@builder.io/qwik/server";
+import { renderToStream, type RenderToStreamOptions } from "@builder.io/qwik/server";
 import Root from "./root";
 
 export default function (opts: RenderToStreamOptions) {
+  const theme = 'dark'
   return renderToStream(<Root />, {
     ...opts,
     // Use container attributes to set attributes on the html tag.
     containerAttributes: {
+      'data-theme': theme,
       lang: "en-us",
       ...opts.containerAttributes,
     },
