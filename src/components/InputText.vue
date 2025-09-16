@@ -13,7 +13,16 @@
   function updateValue(event) {
     emit('update:modelValue', event.target.value)
   }
+  const formError = ref('');
   const showPassword = ref(false);
+  function onBlur(field, event) {
+    if (!event.target.value.trim()) {
+      field = field.replace('_', ' ');
+      console.log(field);
+      formError.value = field.charAt(0).toUpperCase() + field.slice(1) + " Cannot be empty";
+    }
+
+  }
 
 </script>
 
@@ -23,7 +32,7 @@
   <div v-if="type === 'password'" class="form-content relative">
     <label :for="name">{{ label }}</label>
     <input :type="showPassword ? 'text' : 'password'" class="border-1 text-base rounded-md px-1.5 relative" :name="name"
-      :id="name" :value="modelValue" @input="updateValue" :placeholder="placeholder" />
+      :id="name" :value="modelValue" @blur="onBlur(name, $event)" @input="updateValue" :placeholder="placeholder" />
     <!-- <button type="button" @click="showPassword = !showPassword"
       class="absolute right-3 top-2 text-gray-500 bg-white hover:bg-gray-400"> -->
     <button type="button" @click="showPassword = !showPassword"
@@ -46,13 +55,15 @@
       </svg>
     </button>
     <!-- </button> -->
+    <small class="text-red-500" v-if="formError.length">{{ formError }}</small>
   </div>
 
   <!-- other fields -->
   <div v-else class="form-content">
     <label :for="name">{{ label }}</label>
     <input class="border-1 text-base rounded-md px-1.5" :type="type" :name="name" :id="name" :value="modelValue"
-      @input="updateValue" :placeholder="placeholder" />
+      @input="updateValue" :placeholder="placeholder" @blur="onBlur(name, $event)" />
+    <small class="text-red-500" v-if="formError.length">{{ formError }}</small>
   </div>
 
 </template>
