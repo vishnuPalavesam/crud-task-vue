@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue'),
+      component: () => import('@/views/LoginView.vue'),
     },
     {
       path: '/addproduct',
@@ -39,10 +39,33 @@ const router = createRouter({
     {
       path: '/cart',
       name: 'cart',
-      component: () => import('../views/Cart.vue'),
+      component: () => import('@/views/Cart.vue'),
+      meta: {
+        requiredAuth: true
+      }
     },
-
+    {
+      path: '/:catchAll(.*)',
+      name: 'notfound',
+      component: () => import('@/views/NotFound.vue'),
+    },
   ],
 })
+
+function isAuthenticated() {
+  return !!localStorage.getItem('auth_token')
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiredAuth && !isAuthenticated()) {
+    next({ name: 'login' });
+  } else if (to.matched.length === 0) {
+
+    console.log(to.matched.length);
+    next({ name: 'notfound' })
+  } else {
+    next();
+  }
+});
 
 export default router
