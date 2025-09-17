@@ -1,38 +1,19 @@
-import { component$, useStore } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import ImgLogo from "~/media/logo.svg?jsx";
-import DarkTheme from "~/media/dark.svg?jsx";
-import LightTheme from "~/media/light.svg?jsx";
+
+// import { AuthContext } from "~/context/auth";
+import { Link } from "@builder.io/qwik-city";
+import NavBar from "./NavBar";
 
 export default component$(() => {
-  const store = useStore({ theme: "" });
-  function changeTheme() {
-    // store.theme === "dark" ? (store.theme = "dark") : (store.theme = "light");
-  }
-  // const store = useStore({ theme: document.documentElement.getAttribute('data-theme') || '' });
+  // const auth = useContext(AuthContext); //
 
-  // useVisibleTask$(() => {
-  //   store.theme = document.documentElement.getAttribute('data-theme') || ''
-  // })
-
-  //  const useTheme = routeLoader$(({ cookie }) => {
-  //     const theme = cookie.get("theme")?.value || "light";
-  //     return theme;
-  //   });
-  // const isDark = document.documentElement.getAttribute('data-theme');
   return (
-    <>
-      <header class="grid grid-cols-3 content-center items-center justify-center py-2">
-        <ImgLogo class="col-span-2 h-[62px] self-center" />
-        <nav class="grid grid-cols-3 gap-3 place-self-end self-center">
-          {store.theme === "dark" ? (
-            <DarkTheme onClick$={changeTheme()} />
-          ) : (
-            <LightTheme onClick$={changeTheme()} />
-          )}
-          <a href="/login">Login</a>
-          <a href="/register">Regiser</a>
-        </nav>
-      </header>
-    </>
+    <header class="grid grid-cols-3 content-center items-center justify-center py-2">
+      <Link href="/" class="col-span-2 self-center">
+        <ImgLogo class="h-[62px]" />
+      </Link>
+      <NavBar />
+    </header>
   );
 });

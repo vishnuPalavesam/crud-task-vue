@@ -14,12 +14,12 @@ import { renderToStream, type RenderToStreamOptions } from "@builder.io/qwik/ser
 import Root from "./root";
 
 export default function (opts: RenderToStreamOptions) {
-  const theme = 'dark'
+  const theme = "dark";
   return renderToStream(<Root />, {
     ...opts,
     // Use container attributes to set attributes on the html tag.
     containerAttributes: {
-      'data-theme': theme,
+      "data-theme": theme,
       lang: "en-us",
       ...opts.containerAttributes,
     },

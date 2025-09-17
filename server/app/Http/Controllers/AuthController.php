@@ -50,7 +50,8 @@ class AuthController extends Controller
         return response()->json([
             'user'  => $user,
             'token' => $token,
-        ]);
+        ])->cookie('qwik_auth_token', $token, 60*24, '/', null, true, true, false, 'Strict');
+;
     }
 
     // Logout
