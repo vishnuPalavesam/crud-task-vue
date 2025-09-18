@@ -1,16 +1,16 @@
-import { $, component$, useSignal } from "@builder.io/qwik";
+import { $, component$, useContext } from "@builder.io/qwik";
+import { useNavigate } from "@builder.io/qwik-city";
 import FormButton from "~/components/FormButton";
 import InputElement from "~/components/InputElement";
-// import { AuthContext } from "~/context/auth";
+import { AuthContext } from "~/context/auth";
 
 const TestComponent = component$(() => {
   return <h1>Test</h1>;
 });
 
 export default component$(() => {
-  // const auth = useContext(AuthContext); // ✅ Access shared login state
-  const auth = useSignal(false);
-
+  const authState = useContext(AuthContext);
+  const nav = useNavigate();
   const handleLogin = $(async (ev: SubmitEvent) => {
     ev.preventDefault();
     const formData = new FormData(ev.target as HTMLFormElement);
@@ -26,9 +26,11 @@ export default component$(() => {
 
     if (res.status === 200) {
       const data = await res.json();
-
+      // console.log(data.token);
       localStorage.setItem("authentication", data.token);
-      auth.value = true;
+      authState.auth.loggedIn = true;
+      authState.auth.userId = data.userId;
+      nav("/");
     }
   });
 

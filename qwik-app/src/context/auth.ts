@@ -1,11 +1,7 @@
 import { createContextId } from "@builder.io/qwik";
-import { type Signal } from "@builder.io/qwik";
+import { AuthContextType } from "~/types/types";
 
-export interface AuthContextType {
-  loggedIn: Signal<string>;
-}
-
-export const AuthContext = createContextId<AuthContextType>( "false");
+export const AuthContext = createContextId<AuthContextType>('auth-context');
 
 // src/context/auth.ts
 // import { createContextId } from '@builder.io/qwik';
