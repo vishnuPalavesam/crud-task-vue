@@ -39,7 +39,6 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            // echo "<pre>";print_r("here");die;
             throw ValidationException::withMessages([
                 'email' => ['The credentials are incorrect.'],
             ]);
@@ -51,8 +50,7 @@ class AuthController extends Controller
         return response()->json([
             'user'  => $user,
             'token' => $token,
-        ])->cookie('qwik_auth_token', $token, 60*24, '/', null, true, true, false, 'Strict');
-;
+        ]);
     }
 
     // Logout

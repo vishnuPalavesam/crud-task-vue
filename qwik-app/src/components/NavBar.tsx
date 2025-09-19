@@ -1,29 +1,55 @@
-import { $, component$, useContext, useStore } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
+import { $, component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
+import { Link, server$, useNavigate } from "@builder.io/qwik-city";
 import { AuthContext } from "~/context/auth";
 import { ProductStoreContext } from "~/context/product-store";
-// import { AuthContext } from "~/context/auth";
 import DarkTheme from "~/media/dark.svg?jsx";
 import LightTheme from "~/media/light.svg?jsx";
-// import CartImg from "~/media/cart.svg?url";
-
+import { getThemeBefore } from "~/routes/layout";
+export const setThemeBefore = server$(async function (theme) {
+  const { cookie } = this;
+  if (theme == "light") {
+    cookie.set("theme", "dark");
+  } else {
+    cookie.set("theme", "light");
+  }
+  return cookie.get("theme")?.value;
+});
 export default component$(() => {
-  const store = useStore({ theme: "light" }); //
-  const changeTheme = $(() => {
-    store.theme = store.theme === "dark" ? "light" : "dark";
+  const prevTheme = getThemeBefore();
+  const store = useSignal("light"); //
+
+  useTask$(async () => {
+    store.value = prevTheme.value || "light";
+    // document.documentElement.className = prevTheme.value || "light";
+  });
+
+  const changeTheme = $(async () => {
+    const themen = await setThemeBefore(store.value);
+    store.value = themen || "light";
+    document.documentElement.className = themen || "light";
+    localStorage.setItem("theme", themen || "light");
   });
   const authState = useContext(AuthContext);
   const productStore = useContext(ProductStoreContext);
 
+  console.log("from nav", authState.loggedIn);
+  const nav = useNavigate();
+  const handleLogout = $(() => {
+    alert("here");
+    localStorage.removeItem("authentication");
+    authState.loggedIn = false;
+    nav("/");
+  });
+
+  // console.log(authState);
   return (
-    <nav class="grid grid-cols-3 gap-3 place-self-end self-center pr-5">
-      {store.theme === "dark" ? (
+    <nav class="grid grid-cols-4 gap-3 place-self-end self-center pr-5">
+      {store.value === "dark" ? (
         <DarkTheme onClick$={changeTheme} />
       ) : (
         <LightTheme onClick$={changeTheme} />
       )}
-
-      {authState.auth.loggedIn ? (
+      {authState.loggedIn ? (
         <Link href="/cart">
           {/* <CartImg height="25" width="25" /> */}
 
@@ -34,8 +60,11 @@ export default component$(() => {
       ) : (
         ""
       )}
-      {authState.auth.loggedIn ? (
-        <Link href="/">Home</Link>
+      {authState.loggedIn ? (
+        <>
+          <Link href="/">Home</Link>
+          <Link onClick$={handleLogout}>Logout</Link>
+        </>
       ) : (
         <>
           <Link href="/login">Login</Link>

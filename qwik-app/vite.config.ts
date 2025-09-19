@@ -48,7 +48,14 @@ export default defineConfig(({ command, mode }): UserConfig => {
       headers: {
         // Don't cache the server response in dev mode
         'Cache-Control': 'public, max-age=0',
+        //  'Authorization': `Bearer ` + localStorage.getItem("authentication") || "",
       },
+      proxy:{
+       '/api': {
+        target: 'http://127.0.0.1:8000', // your backend
+        changeOrigin: true,
+      },
+      }
     },
     preview: {
       headers: {

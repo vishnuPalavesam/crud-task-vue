@@ -4,8 +4,6 @@ import NoCart from "~/components/NoCart";
 import { ProductStoreContext } from "~/context/product-store";
 import { AuthContext } from "~/context/auth";
 import { useNavigate } from "@builder.io/qwik-city";
-// import { ProductStoreContext } from "~/context/product-strore";
-// import { Product } from "~/types/types";
 
 export default component$(() => {
   const authState = useContext(AuthContext);
@@ -13,7 +11,7 @@ export default component$(() => {
   const productStore = useContext(ProductStoreContext);
 
   useVisibleTask$(() => {
-    if (!authState.auth.loggedIn) {
+    if (!authState.loggedIn) {
       nav("/login");
     }
   });
@@ -53,11 +51,6 @@ export default component$(() => {
       )}
     </>
   );
-  // return (
-  //   <>
-  //     <div>Here</div>
-  //   </>
-  // );
 });
 
 const TotalView = component$(() => {

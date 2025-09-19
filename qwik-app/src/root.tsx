@@ -28,17 +28,12 @@ export default component$(() => {
     recents: [],
   });
 
-  const auth = useStore<AuthContextType>({
-    auth: {
-      loggedIn: false,
-    },
+  const authState = useStore<AuthContextType>({
+    loggedIn: false,
   });
 
-  useContextProvider(ProductStoreContext, productStore);
-  useContextProvider(AuthContext, auth);
-
   const getProducts = $(async () => {
-    const res = await fetch("http://localhost:8000/api/products/index");
+    const res = await fetch("/api/products/index");
     const data = await res.json();
     data.map((dat: Product) => (dat.cart = false));
     if (productStore.products.length === 0) {
@@ -46,30 +41,34 @@ export default component$(() => {
       productStore.recents = [...data].sort(() => Math.random() - 0.5).slice(0, 4);
     }
   });
+
   const checkUser = $(async () => {
-    await fetch("http://localhost:8000/sanctum/csrf-cookie", {
-      credentials: "include",
-    });
-    await fetch("http://localhost:8000/api/user", {
+    await fetch("/api/user", {
       method: "GET",
       headers: {
-        // "Content-Type": "application/json",
+        "Content-Type": "application/json",
         credentials: "include",
         Authorization: `Bearer ` + localStorage.getItem("authentication") || "",
       },
       credentials: "include",
     })
-      .then((res) => {
-        auth.auth.loggedIn = res.status === 200 ? true : false;
+      .then(async (res) => {
+        const data = await res.json();
+        authState.loggedIn = res.status === 200 && data.id ? true : false;
       })
       .catch((err) => {
         console.log(err);
       });
   });
+
   useVisibleTask$(() => {
     checkUser();
-    // getProducts();
+    getProducts();
   });
+
+  useContextProvider(ProductStoreContext, productStore);
+  useContextProvider(AuthContext, authState);
+  console.log("from root", authState.loggedIn);
 
   return (
     <QwikCityProvider>
@@ -77,8 +76,33 @@ export default component$(() => {
         <meta charset="utf-8" />
         {!isDev && <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />}
         <RouterHead />
+
+        <script
+          dangerouslySetInnerHTML={`
+        (function() {
+          function setTheme(theme) {
+            document.documentElement.className = theme;
+            localStorage.setItem('theme', theme);
+          }
+          const theme = localStorage.getItem('theme') || "light";
+
+          if (theme) {
+            setTheme(theme);
+          } else {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              setTheme('dark');}
+              else {
+                setTheme('light');}}
+        })();
+        window.addEventListener('load', function() {
+          const themeSwitch = document.getElementById('hide-checkbox');
+          // themeSwitch.checked = localStorage.getItem('theme') === 'light'? true: false;
+        }
+        );
+      `}
+        ></script>
       </head>
-      <body lang="en">
+      <body lang="en" class="dark:bg-gray-900 dark:text-white">
         <RouterOutlet />
       </body>
     </QwikCityProvider>

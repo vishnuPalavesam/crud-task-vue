@@ -17,19 +17,17 @@ export default component$(() => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const res = await fetch("http://127.0.0.1:8000/api/login", {
+    const res = await fetch("/api/login", {
       method: "POST",
-      // credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
     if (res.status === 200) {
       const data = await res.json();
-      // console.log(data.token);
       localStorage.setItem("authentication", data.token);
-      authState.auth.loggedIn = true;
-      authState.auth.userId = data.userId;
+      authState.loggedIn = true;
+      authState.userId = data.userId;
       nav("/");
     }
   });

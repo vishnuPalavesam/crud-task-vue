@@ -28,8 +28,8 @@ import { Product } from "~/types/types";
 export default component$<{ products: Product[] }>(({ products }) => {
   // export default component$<componentProps>(({ keyid, name, image, price, cart, auth }) => {
   return (
-    <div class="grid max-h-1/2 grid-rows-2 items-center gap-10 text-center">
-      <div class="nocart-text">
+    <div class="grid  min-h-[94vh] grid-rows-2 items-center  text-center">
+      <div class="border-1 text-xl rounded-lg dark:text-white border-white min-h-[40vh] self-center content-center text-center " >
         No Items in the Cart. Go to
         <Link class="text-green-600" href="/">
           {" "}
@@ -37,7 +37,7 @@ export default component$<{ products: Product[] }>(({ products }) => {
         </Link>
       </div>
       <div class="grid grid-rows-none items-center gap-3">
-        <h4 class="max-h-1/2 text-left">Recent Products</h4>
+        <h4 class="max-h-1/2 text-left dark:text-neutral-200">Recent Products</h4>
         <div class="grid grid-cols-4 gap-2">
           {products.map((product) => (
             <ProductCard

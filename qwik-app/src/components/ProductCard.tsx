@@ -33,7 +33,7 @@ export default component$<componentProps>(({ keyid, name, image, price, cart, au
   });
   return (
     <>
-      <div class="dark:bg-grey relative flex flex-col items-center rounded-lg bg-white p-2 shadow-md transition hover:shadow-lg">
+      <div class="relative flex flex-col items-center rounded-lg bg-white p-2 shadow-md transition hover:shadow-lg dark:bg-gray-800">
         <img
           alt=""
           class="mb-3 h-40 w-full rounded-md object-cover transition-transform hover:scale-105"
@@ -54,13 +54,15 @@ export default component$<componentProps>(({ keyid, name, image, price, cart, au
         )}
         <div class="grid w-full grid-cols-4 items-center gap-2">
           <div class="col-span-3">
-            <h4 class="truncate text-lg font-semibold text-gray-800">{name}</h4>
-            <h5 class="mt-1 text-sm text-gray-500">{`$ ${price}`}</h5>
+            <h4 class="truncate text-lg font-semibold text-gray-800 dark:text-neutral-200">
+              {name}
+            </h4>
+            <h5 class="mt-1 text-sm text-gray-500 dark:text-neutral-300">{`$ ${price}`}</h5>
           </div>
           {auth ? (
             <Link onClick$={onclick}>
               <img
-                class="cursor-pointer rounded-full bg-green-50 p-2 transition hover:bg-green-200"
+                class="cursor-pointer rounded-full bg-green-50 p-2 transition hover:bg-green-200 dark:bg-neutral-400 dark:hover:bg-green-100"
                 src={cartImg}
                 height="30"
                 width="30"

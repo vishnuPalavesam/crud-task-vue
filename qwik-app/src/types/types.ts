@@ -1,5 +1,3 @@
-import { FunctionComponent } from "@builder.io/qwik/jsx-runtime";
-
 export interface Product {
   id: number;
   name: string;
@@ -11,8 +9,6 @@ export interface Product {
 }
 
 export interface AuthContextType {
-  auth: {
-    userId?: string;
-    loggedIn: boolean;
-  };
+  userId?: string;
+  loggedIn: boolean;
 }
