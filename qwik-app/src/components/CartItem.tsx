@@ -17,10 +17,7 @@ export default component$<componentProps>(
     });
 
     return (
-      <div
-        data-key={keyid}
-        class="cart-item flex items-center gap-6 rounded-lg bg-gray-100 p-4 shadow"
-      >
+      <div data-key={keyid} class="cart-item flex items-center gap-6 rounded-lg p-4 shadow">
         <img
           alt=""
           src={image}
@@ -29,9 +26,9 @@ export default component$<componentProps>(
           width="100"
         />
         <div class="flex-1">
-          <h4 class="text-lg font-semibold text-gray-700">{name}</h4>
+          <h4 class="text-lg font-semibold text-gray-400">{name}</h4>
           <p class="text-gray-500">
-            Price: <span class="font-bold text-gray-800">{`$ ${price}`}</span>
+            Price: <span class="font-bold text-gray-400">{`$ ${price}`}</span>
           </p>
           <div class="mt-2 flex items-center gap-2">
             <button
@@ -41,7 +38,7 @@ export default component$<componentProps>(
             >
               -
             </button>
-            <span class="rounded border bg-white px-3 py-1 text-gray-700">{startquantity}</span>
+            <span class="rounded border bg-white dark:bg-neutral-300 px-3 py-1 text-gray-700">{startquantity}</span>
             <button
               onClick$={increase}
               disabled={quantity === startquantity}

@@ -4,7 +4,7 @@ import { AuthContext } from "~/context/auth";
 import { ProductStoreContext } from "~/context/product-store";
 import DarkTheme from "~/media/dark.svg?jsx";
 import LightTheme from "~/media/light.svg?jsx";
-import { getThemeBefore } from "~/routes/layout";
+import { useThemeBefore } from "~/routes/layout";
 export const setThemeBefore = server$(async function (theme) {
   const { cookie } = this;
   if (theme == "light") {
@@ -14,31 +14,45 @@ export const setThemeBefore = server$(async function (theme) {
   }
   return cookie.get("theme")?.value;
 });
+
+export const logoutUser = server$(async function () {
+  this.cookie.delete("authentication");
+  this.sharedMap.delete("authentication");
+  // throw this.redirect(302, "/login");
+
+  // console.lo;k
+  return {
+    success: true,
+  };
+});
 export default component$(() => {
-  const prevTheme = getThemeBefore();
+  const prevTheme = useThemeBefore();
   const store = useSignal("light"); //
 
+  const authState = useContext(AuthContext);
+  // console.log(authState);
   useTask$(async () => {
     store.value = prevTheme.value || "light";
-    // document.documentElement.className = prevTheme.value || "light";
   });
 
   const changeTheme = $(async () => {
-    const themen = await setThemeBefore(store.value);
-    store.value = themen || "light";
-    document.documentElement.className = themen || "light";
-    localStorage.setItem("theme", themen || "light");
+    const theme = await setThemeBefore(store.value);
+    store.value = theme || "light";
+    document.documentElement.className = theme || "light";
+    localStorage.setItem("theme", theme || "light");
   });
-  const authState = useContext(AuthContext);
+  // const authState = useContext(AuthContext);
   const productStore = useContext(ProductStoreContext);
 
-  console.log("from nav", authState.loggedIn);
   const nav = useNavigate();
-  const handleLogout = $(() => {
-    alert("here");
-    localStorage.removeItem("authentication");
-    authState.loggedIn = false;
-    nav("/");
+  const handleLogout = $(async () => {
+    // localStorage.removeItem("authentication");
+    const user = await logoutUser();
+    console.log(user.success);
+    if (user.success === true) {
+      authState.loggedIn = false;
+      nav("/login");
+    }
   });
 
   // console.log(authState);

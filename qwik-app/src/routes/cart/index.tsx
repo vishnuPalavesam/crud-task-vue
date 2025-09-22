@@ -1,4 +1,4 @@
-import { $, component$, useContext, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useTask$ } from "@builder.io/qwik";
 import CartItem from "~/components/CartItem";
 import NoCart from "~/components/NoCart";
 import { ProductStoreContext } from "~/context/product-store";
@@ -10,7 +10,7 @@ export default component$(() => {
   const nav = useNavigate();
   const productStore = useContext(ProductStoreContext);
 
-  useVisibleTask$(() => {
+  useTask$(() => {
     if (!authState.loggedIn) {
       nav("/login");
     }
@@ -27,7 +27,7 @@ export default component$(() => {
   return (
     <>
       {cart.length > 0 ? (
-        <div class="grid w-full min-w-[76vw] grid-cols-2">
+        <div class="grid w-full min-w-[76vw] grid-cols-2 dark:bg-neutral-700">
           <div class="grid">
             {cart.map((el) => (
               <CartItem
@@ -57,11 +57,11 @@ const TotalView = component$(() => {
   const productStore = useContext(ProductStoreContext);
   const cart = productStore.cart;
   return (
-    <div class="cart-total min-w-23vw w-full rounded-lg bg-white p-6 shadow">
+    <div class="cart-total min-w-23vw w-full rounded-lg p-6 shadow">
       <h3 class="min-w-23vw mb-4 text-xl font-bold text-gray-800">Total Price</h3>
       <p class="min-w-23vw text-2xl font-semibold text-green-600">
         {"$ " +
-          cart.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}
+          cart.reduce((total, product) => total + product.price * product.startquantity, 0).toFixed(2)}
       </p>
     </div>
   );

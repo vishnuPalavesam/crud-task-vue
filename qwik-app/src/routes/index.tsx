@@ -10,7 +10,6 @@ export default component$(() => {
   const productStore = useContext(ProductStoreContext);
   const authState = useContext(AuthContext);
   const productsResource = useResource$<Product[]>(async () => {
-    // return [];
     return productStore.products;
   });
 

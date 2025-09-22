@@ -1,12 +1,5 @@
-import {
-  $,
-  component$,
-  isDev,
-  useContextProvider,
-  useStore,
-  useVisibleTask$,
-} from "@builder.io/qwik";
-import { QwikCityProvider, RouterOutlet } from "@builder.io/qwik-city";
+import { $, component$, isDev, useContextProvider, useStore, useTask$ } from "@builder.io/qwik";
+import { QwikCityProvider, RouterOutlet, server$ } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
@@ -14,6 +7,14 @@ import "./global.css";
 import { ProductStoreContext } from "~/context/product-store";
 import { AuthContext } from "~/context/auth";
 import { AuthContextType, Product } from "~/types/types";
+
+export const checkAuth = server$(function () {
+  const token = this.cookie.get("authentication");
+  console.log(!!token?.value);
+  return {
+    loggedIn: !!token?.value,
+  };
+});
 
 export default component$(() => {
   /**
@@ -27,13 +28,15 @@ export default component$(() => {
     cart: [],
     recents: [],
   });
-
+  // useTask$(async () => {
+  //   authLoader();
+  // });
   const authState = useStore<AuthContextType>({
     loggedIn: false,
   });
 
   const getProducts = $(async () => {
-    const res = await fetch("/api/products/index");
+    const res = await fetch("http://127.0.0.1:8000/api/products/index");
     const data = await res.json();
     data.map((dat: Product) => (dat.cart = false));
     if (productStore.products.length === 0) {
@@ -41,34 +44,15 @@ export default component$(() => {
       productStore.recents = [...data].sort(() => Math.random() - 0.5).slice(0, 4);
     }
   });
-
-  const checkUser = $(async () => {
-    await fetch("/api/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-        Authorization: `Bearer ` + localStorage.getItem("authentication") || "",
-      },
-      credentials: "include",
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        authState.loggedIn = res.status === 200 && data.id ? true : false;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
-  useVisibleTask$(() => {
-    checkUser();
-    getProducts();
+  useTask$(async () => {
+    const result = await checkAuth();
+    authState.loggedIn = result.loggedIn;
+    console.log(authState);
+    await getProducts();
   });
 
   useContextProvider(ProductStoreContext, productStore);
   useContextProvider(AuthContext, authState);
-  console.log("from root", authState.loggedIn);
 
   return (
     <QwikCityProvider>
