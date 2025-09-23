@@ -2,7 +2,6 @@ import { $, component$, useContext } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import { ProductStoreContext } from "~/context/product-store";
 import cartImg from "~/media/cart.svg";
-// import { Product } from "~/types/products";
 type componentProps = {
   name: string;
   image: string;
@@ -10,7 +9,6 @@ type componentProps = {
   cart?: boolean;
   auth: boolean;
   keyid: number;
-  // startquantity: number;
 };
 export default component$<componentProps>(({ keyid, name, image, price, cart, auth }) => {
   const productStore = useContext(ProductStoreContext);
@@ -24,12 +22,10 @@ export default component$<componentProps>(({ keyid, name, image, price, cart, au
         productStore.cart = productStore.cart.filter((el) => el.id !== keyid);
       } else {
         const cartProduct = product;
-        // cartProduct.max = cartProduct.quantity;
         cartProduct.startquantity = 1;
         productStore.cart.push(cartProduct);
       }
     }
-    console.log(productStore);
   });
   return (
     <>
@@ -52,8 +48,8 @@ export default component$<componentProps>(({ keyid, name, image, price, cart, au
         ) : (
           ""
         )}
-        <div class="grid w-full grid-cols-4 items-center gap-2">
-          <div class="col-span-3">
+        <div class="grid w-full grid-cols-5 items-center gap-2">
+          <div class="col-span-4">
             <h4 class="truncate text-lg font-semibold text-gray-800 dark:text-neutral-200">
               {name}
             </h4>

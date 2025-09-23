@@ -16,15 +16,11 @@ export default component$(() => {
 
     const res = await fetch("http://127.0.0.1:8000/api/register", {
       method: "POST",
-      // credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password, password_confirmation }),
     });
 
     if (res.status === 201) {
-      const data = await res.json();
-      console.log(data);
-      // localStorage.setItem("authentication", data.token);
       nav("/login");
     }
   });

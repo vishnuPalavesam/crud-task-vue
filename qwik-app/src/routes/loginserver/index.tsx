@@ -12,9 +12,7 @@ export const useloginAction = routeAction$(async (data, requestEvent) => {
     body: JSON.stringify({ email, password }),
   });
   const dataJSON = await res.json();
-  console.log(dataJSON);
   if (res.status === 200 && dataJSON.token) {
-    // sharedMap.set("user", dataJSON.token);
 
     requestEvent.cookie.set("authentication", dataJSON.token, {
       path: "/",

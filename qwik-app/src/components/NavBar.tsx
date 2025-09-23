@@ -18,9 +18,7 @@ export const setThemeBefore = server$(async function (theme) {
 export const logoutUser = server$(async function () {
   this.cookie.delete("authentication");
   this.sharedMap.delete("authentication");
-  // throw this.redirect(302, "/login");
 
-  // console.lo;k
   return {
     success: true,
   };
@@ -30,7 +28,6 @@ export default component$(() => {
   const store = useSignal("light"); //
 
   const authState = useContext(AuthContext);
-  // console.log(authState);
   useTask$(async () => {
     store.value = prevTheme.value || "light";
   });
@@ -41,32 +38,30 @@ export default component$(() => {
     document.documentElement.className = theme || "light";
     localStorage.setItem("theme", theme || "light");
   });
-  // const authState = useContext(AuthContext);
   const productStore = useContext(ProductStoreContext);
 
   const nav = useNavigate();
   const handleLogout = $(async () => {
-    // localStorage.removeItem("authentication");
     const user = await logoutUser();
-    console.log(user.success);
     if (user.success === true) {
       authState.loggedIn = false;
       nav("/login");
     }
   });
 
-  // console.log(authState);
   return (
     <nav class="grid grid-cols-4 gap-3 place-self-end self-center pr-5">
       {store.value === "dark" ? (
-        <DarkTheme onClick$={changeTheme} />
+        <div class="max-w-fit rounded-xl active:bg-neutral-500 active:backdrop-blur-xs">
+          <DarkTheme onClick$={changeTheme} />
+        </div>
       ) : (
-        <LightTheme onClick$={changeTheme} />
+        <div class="rounded-xl active:backdrop-blur-xs">
+          <LightTheme onClick$={changeTheme} />
+        </div>
       )}
       {authState.loggedIn ? (
         <Link href="/cart">
-          {/* <CartImg height="25" width="25" /> */}
-
           <div class="back self-center bg-[url(/src/media/cart.svg)] bg-left bg-no-repeat text-center text-xs">
             {productStore.cart.length}
           </div>

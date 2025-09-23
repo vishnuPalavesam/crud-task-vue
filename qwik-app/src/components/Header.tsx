@@ -1,12 +1,10 @@
 import { component$ } from "@builder.io/qwik";
 import ImgLogo from "~/media/logo.svg?jsx";
 
-// import { AuthContext } from "~/context/auth";
 import { Link } from "@builder.io/qwik-city";
 import NavBar from "./NavBar";
 
 export default component$(() => {
-  // const auth = useContext(AuthContext); //
 
   return (
     <header class="grid grid-cols-3 content-center items-center justify-center gap-2 py-2 dark:bg-gray-900 dark:text-white">

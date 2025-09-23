@@ -6,7 +6,6 @@ import { Product } from "~/types/types";
 import { AuthContext } from "~/context/auth";
 
 export default component$(() => {
-  // const store = useStore<{ products: Product[] }>({ products: [] });
   const productStore = useContext(ProductStoreContext);
   const authState = useContext(AuthContext);
   const productsResource = useResource$<Product[]>(async () => {

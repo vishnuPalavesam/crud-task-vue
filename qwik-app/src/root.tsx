@@ -10,7 +10,6 @@ import { AuthContextType, Product } from "~/types/types";
 
 export const checkAuth = server$(function () {
   const token = this.cookie.get("authentication");
-  console.log(!!token?.value);
   return {
     loggedIn: !!token?.value,
   };
@@ -28,9 +27,6 @@ export default component$(() => {
     cart: [],
     recents: [],
   });
-  // useTask$(async () => {
-  //   authLoader();
-  // });
   const authState = useStore<AuthContextType>({
     loggedIn: false,
   });
@@ -47,7 +43,6 @@ export default component$(() => {
   useTask$(async () => {
     const result = await checkAuth();
     authState.loggedIn = result.loggedIn;
-    console.log(authState);
     await getProducts();
   });
 
@@ -80,7 +75,6 @@ export default component$(() => {
         })();
         window.addEventListener('load', function() {
           const themeSwitch = document.getElementById('hide-checkbox');
-          // themeSwitch.checked = localStorage.getItem('theme') === 'light'? true: false;
         }
         );
       `}
